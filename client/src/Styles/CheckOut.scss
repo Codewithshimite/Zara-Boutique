@@ -1,0 +1,49 @@
+@use 'variables' as *;
+
+
+.checkout-container {
+  max-width: 80%;
+  margin: 4rem auto;
+  padding: 2rem;
+  border: 10px solid $primary-color;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  gap:-10%
+
+}
+
+.checkout-title {
+  
+  margin-bottom: 2rem;
+}
+
+.checkout-form label {
+  font-weight: bold;
+  font-family: 'Lora', serif;
+  font-weight: bold;
+}
+
+
+.hidden {
+  display: none;
+}
+
+.checkout-summary{
+  width: 30%;
+}
+
+.checkout-form{
+  width: 65%;
+}
+
+.email{
+  width: 40%;
+  display: inline-block;
+}
+
+.phone-number{
+  width: 40%;
+  display: inline-block;
+  margin-left: 5%;
+}

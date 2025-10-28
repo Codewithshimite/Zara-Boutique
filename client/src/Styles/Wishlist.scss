@@ -1,0 +1,139 @@
+@use 'variables' as *;
+
+
+.wishlist-img {
+  max-width: 60px; /* or whatever size you want */
+  height: auto;
+}
+
+.detail-div{
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  gap: 8%;
+  justify-content:center;
+}
+
+.park{
+  width: 100%;
+
+}
+
+.wishlist-image-holder{
+  width: 20%;
+}
+
+.wishlist-item-name{
+  width: 60%;
+  color: $primary-color;
+  font-family: 'Lora', serif;
+  font-weight: bold;
+ 
+}
+
+.wishlist-item-price{
+  width: 40%;
+  color:$primary-color;
+  font-family: 'Lora', serif;
+  font-family: $heading-font;
+}
+
+.hold-container{
+  width: 100%;
+  background-color: white !important;
+  border: 1px solid $primary-color;
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  margin-bottom: -3% !important;
+ 
+}
+
+.item-add-remove-btn{
+  display: flex;
+  flex-direction: row;
+  gap:5px;
+  align-items: center;
+  justify-content:center;
+  
+
+}
+
+.item-name-price{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  width: 60%;
+  gap: 2px
+}
+.wishlist-item-price{
+  width: 30%;
+  margin-top: 4px;
+}
+
+.cart-icon{
+  width: 150px;
+  height: 40px;
+  background-color: green;
+}
+.cart-icon:hover{
+  background-color: rgb(6, 100, 6);
+}
+
+
+
+/*Mobile view*/
+
+@media (max-width: 768px){
+  .park{
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+  }
+
+  .wishlist-image-holder {
+    width: 100%;
+    height: auto; /* Allow height to adapt to content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .wishlist-img {
+    width: 100%;
+    max-height: none;
+  }
+
+  .item-name-price{
+    display: flex;
+    flex-direction: column;
+    // border: 2px solid red;
+  }
+
+  .detail-div{
+  display: flex;
+  flex-direction: column;
+  }
+
+  .wishlist-item-price{
+    width: 100%;
+    margin-top: 4px;
+  }
+  .wishlist-item-name{
+    width: 100%;
+   
+  }
+}
+
+/*Tablet view*/
+
+// @media (min-width: 600px) and (max-width: 1024px) {
+  
+// }

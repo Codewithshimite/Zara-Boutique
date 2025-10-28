@@ -1,0 +1,86 @@
+// ======================= About Page Styles =======================
+
+// optional: import variables or mixins if you have them
+@use 'variables' as *;
+
+// Hero section
+.about-hero {
+  background-color:$mainbackground-color;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 4rem 0;
+}
+
+// Stats cards
+.about-stat {
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+  }
+}
+
+// Timeline
+.about-timeline {
+  position: relative;
+  margin-top: 1rem;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    bottom: 0;
+    width: 2px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Utilities
+.object-fit-cover {
+  object-fit: cover;
+}
+
+// CTA Section
+.about-cta {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
+  text-align: center;
+  background: #fff;
+  padding: 3rem 2rem;
+
+  h3 {
+    font-weight: 600;
+  }
+
+  p {
+    color: #6c757d;
+  }
+
+  .btn {
+    margin: 0.25rem;
+  }
+}
+
+.team-card{
+  width: fit-content;
+  display: flex;
+  margin-left: 18%;
+}
+
+.shop-now-btn{
+  background-color:  rgb(149, 41, 41) !important;
+}
+
+.main{
+  background-color: red;
+}
+
+.clothe-show{
+  margin-top: -8%;
+}
+
+.mother{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

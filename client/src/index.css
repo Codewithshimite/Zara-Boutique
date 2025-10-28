@@ -1,0 +1,13 @@
+.root{
+  background-color: brown !important;
+}
+
+/* // Light theming for the About page (keeps Bootstrap look & feel) */
+.about-stat { border-radius: 1rem; }
+.about-timeline { position: relative; }
+.about-timeline::before {
+content: ""; position: absolute; left: 4px; top: 4px; bottom: 0; width: 2px; background: rgba(0,0,0,.1);
+}
+/* // Utilities if you need them */
+.object-fit-cover { object-fit: cover; }
+/* */ */

@@ -1,0 +1,312 @@
+@use 'variables' as *;
+
+// Cart container (newly added)
+.cart-container {
+  width: 80%;
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.item-hill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80% !important;
+  flex-direction: row;
+  height: fit-content;
+  border: 1px solid $primary-color;
+}
+
+.cart-product-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cart-item-image-div {
+  width: 20%;
+}
+
+.cart-item-details-div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 75%;
+  margin-left: 5%;
+}
+
+.cart-item-name {
+  color: $primary-color;
+  font-family: 'Lora', serif;
+  font-weight: bold;
+}
+
+.cart-item-detail-price {
+  font-weight: bold;
+  font-family: $heading-font;
+}
+
+table {
+  font-weight: bold;
+  font-family: 'Lora', serif;
+}
+
+.table-sm {
+  border: 1px solid $secondary-color;
+  width: 100%;
+  color: $primary-color !important;
+  border-radius: 5% !important;
+}
+
+.item-qty-price {
+  font-family: $heading-font !important;
+  font-weight: 200;
+}
+
+.summary-image {
+  width: 40px;
+  border-radius: 50%;
+}
+
+// Cart summary (updated)
+.cart-summary {
+  position: fixed;
+  top: 80px; // distance from top of page
+  right: 20px; // stick to right side
+  width: 30%; // set a specific width
+  padding: 1rem;
+  border-radius: 0.5rem;
+  // z-index: 1000;
+  height: fit-content;
+}
+
+.cart-text{
+  font-family: 'Lora', serif;
+  font-weight: bold;
+}
+
+.summary-text{
+  font-family: 'Lora', serif;
+  font-weight: bold;
+}
+.closa{
+  display: none;
+}
+
+.mobile-summary-toggle-btn{
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .cart-container {
+    flex-direction: column;
+    // background-color: green !important;
+    width: 100%;
+  }
+  
+
+  .item-hill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+    flex-direction: row;
+    height: inherit;
+    border: 1px solid $primary-color;
+  }
+
+  .cart-item-details-div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+    align-items: center;
+    // background-color: red;
+    width: 1fr;
+
+  }
+
+  .cart-item-image-div {
+    width: 50% !important;
+    // border: 2px solid red;
+  }
+
+  .cart-summary {
+    position: static;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+
+
+  /* Mobile summary button styles */
+.mobile-summary-toggle-btn {
+  display: block;
+  padding: 1rem;
+  // background-color: #007bff;
+  border: 2px solid $primary-color;
+  color: #4a4343;
+  text-align: center;
+  cursor: pointer;
+}
+
+.closa{
+  background-color: transparent !important;
+  border: none !important;
+  color: white;
+  font-weight: bolder;
+  
+}
+
+/* Offcanvas container (initially hidden) */
+.offcanvas-bottom-cart {
+  position: fixed;
+  left: 0;
+  bottom: -100%;
+  width: 100%;
+  background: #222;
+  color: #fff;
+  transition: bottom 0.3s ease;
+  z-index: 1050;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Show the offcanvas when checkbox is checked */
+#mobile-summary-toggle:checked + .mobile-summary-toggle-btn + .offcanvas-bottom-cart {
+  bottom: 0;
+}
+
+/* Inner summary styles */
+.cart-summary.mobile-summary {
+  padding: 1rem;
+  background: $primary-color;
+  border-radius: 12px 12px 0 0;
+}
+
+.close-toggle{
+ background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* Completely hide all on desktop */
+@media (min-width: 768px) {
+  #mobile-summary-toggle,
+  .mobile-summary-toggle-btn,
+  .offcanvas-bottom-cart {
+    display: none !important;
+  }
+}
+
+.total{
+  font-family: 'Lora', serif;
+}
+}
+
+
+/*Tablet view*/
+
+@media (min-width: 600px) and (max-width: 1024px) {
+      
+  .cart-container {
+    width: 100%;
+    // background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .item-hill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+    flex-direction: row;
+    height: fit-content;
+    border: 1px solid $primary-color;
+    // background-color: green;
+  }
+
+
+  .mobile-summary-toggle-btn {
+    display: block;
+    padding: 1rem;
+    // background-color: #007bff;
+    border: 2px solid $primary-color;
+    color: #4a4343;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .cart-summary {
+    position: static;
+    width: 100%;
+    margin-top: 0.5rem;
+    // background-color: pink;
+  }
+
+  .mobile-summary-toggle-btn {
+    display: block;
+    padding: 1rem;
+    font-weight: bold;
+    background-color: $primary-color;
+    border: 2px solid $text-color;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    font-family: 'Lora', serif;
+  }
+  
+  .closa{
+    background-color: transparent !important;
+    border: none !important;
+    color: white;
+    font-weight: bolder;
+    
+  }
+  
+  /* Offcanvas container (initially hidden) */
+  .offcanvas-bottom-cart {
+    position: fixed;
+    left: 0;
+    bottom: -100%;
+    width: 100%;
+    background: #222;
+    color: #fff;
+    transition: bottom 0.3s ease;
+    z-index: 1050;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* Show the offcanvas when checkbox is checked */
+  #mobile-summary-toggle:checked + .mobile-summary-toggle-btn + .offcanvas-bottom-cart {
+    bottom: 0;
+  }
+  
+  /* Inner summary styles */
+  .cart-summary.mobile-summary {
+    padding: 1rem;
+    background: $primary-color;
+    border-radius: 12px;
+  }
+  
+  .close-toggle{
+   background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items:center;
+  }
+
+  
+
+
+}

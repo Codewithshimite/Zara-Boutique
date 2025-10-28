@@ -1,0 +1,415 @@
+@use 'variables' as *;
+
+.main-home-page{
+  margin-top: 50%;
+}
+
+.background-image-div{
+//   background-color: $primary-color !important;  
+    width: 100% !important;
+
+}
+
+.first-message{
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   font-weight: bold;
+}
+
+
+.text-shadow-pop-top{
+  color: $danger-color; 
+  font-weight: bolder;
+}
+
+
+
+.text-shadow-pop-top {
+	-webkit-animation: text-shadow-pop-top 0.6s both;
+	        animation: text-shadow-pop-top 0.6s both;
+}
+
+
+/*For Grid generator in homepage*/
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: normal;
+  align-items: normal;
+  align-content: normal;
+  gap: none;
+  height: 100%;
+   overflow-x: hidden;
+   overflow-y: hidden;
+}
+
+.first-demacation{
+  display: flex;
+  flex-direction: column;
+}
+
+.sec-container{
+  display: flex;
+  flex-direction: column;
+  gap: none;
+  background-color: #222222;
+}
+
+.sec3-a{
+  display: flex;
+  flex-direction: row;
+   background-color: $mainbackground-color !important;
+  width: 100%;
+  height: 100%;
+}
+
+.shoe-one{
+  width: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-items:baseline;
+  align-items: center !important;
+}
+
+.shoe-main{
+  width: 100%
+}
+.shoe-two{
+  width: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+
+
+.sec3-b{
+ background-color: #222222;
+  width:100% ;
+  
+}
+
+
+
+.grid-flex-items:nth-child(1) {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+  background-color: rgb(66, 63, 63);
+  display: flex;
+  flex-direction: column;  
+}
+
+.demac-container {
+  display: flex;
+  flex-direction: column;
+  gap: none;
+}
+
+.middle-flex{
+  background-color: rgb(233, 228, 228) !important;
+}
+
+.demac-a{
+  background-color: #222222 !important;
+  height: 50%;
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+}
+
+.demac-b{
+  background-color: white !important;
+  height: 50%;
+}
+
+.fog{
+
+  width: 70%;
+
+}
+
+.grid-flex-items:nth-child(2) {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+  background-color: rgb(0, 17, 77);
+ 
+}
+// .grid-flex-items:nth-child(1) {
+//   display: block;
+//   flex-grow: 0;
+//   flex-shrink: 1;
+//   flex-basis: auto;
+//   align-self: auto;
+//   order: 0;
+//   background-color: rgb(0, 17, 77);
+ 
+// }
+
+.grid-flex-items:nth-child(3) {
+  display: flex;
+ align-items: center;
+  justify-content: center;
+   
+}
+
+.grid-flex-items{
+  width: 33.3%;
+  height: 100%;
+}
+
+
+.sweater{
+  width: 100%;
+  height: 100%;
+}
+/*Rolling for sweater for animistata*/
+.roll-in-left-sweater {
+	-webkit-animation: roll-in-left 0.19s ease-out both;
+	        animation: roll-in-left 0.6s ease-out both;
+  }
+
+  @-webkit-keyframes roll-in-left-sweater {
+  0% {
+    -webkit-transform: translateX(-800px) rotate(-540deg);
+            transform: translateX(-800px) rotate(-540deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0) rotate(0deg);
+            transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes roll-in-left {
+  0% {
+    -webkit-transform: translateX(-800px) rotate(-540deg);
+            transform: translateX(-800px) rotate(-540deg);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0) rotate(0deg);
+            transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+
+
+
+/*T-shirt front page style*/
+.Tshirt{
+  width: 100% !important;
+}
+
+
+.slide-in-elliptic-right-fwd {
+	-webkit-animation: slide-in-elliptic-right-fwd 0.9s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-in-elliptic-right-fwd 0.9s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+
+@-webkit-keyframes slide-in-elliptic-right-fwd {
+  0% {
+    -webkit-transform: translateX(800px) rotateY(-30deg) scale(0);
+            transform: translateX(800px) rotateY(-30deg) scale(0);
+    -webkit-transform-origin: -100% 50%;
+            transform-origin: -100% 50%;
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0) rotateY(0) scale(1);
+            transform: translateX(0) rotateY(0) scale(1);
+    -webkit-transform-origin: -1800px 50%;
+            transform-origin: -1800px 50%;
+    opacity: 1;
+  }
+}
+@keyframes slide-in-elliptic-right-fwd {
+  0% {
+    -webkit-transform: translateX(800px) rotateY(-30deg) scale(0);
+            transform: translateX(800px) rotateY(-30deg) scale(0);
+    -webkit-transform-origin: -100% 50%;
+            transform-origin: -100% 50%;
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0) rotateY(0) scale(1);
+            transform: translateX(0) rotateY(0) scale(1);
+    -webkit-transform-origin: -1800px 50%;
+            transform-origin: -1800px 50%;
+    opacity: 1;
+  }
+}
+
+
+.bal-logo{
+  width: 70%;
+
+}
+
+
+
+/*For sketcher*/
+.slide-in-blurred-top {
+	-webkit-animation: slide-in-blurred-top 0.9s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+	        animation: slide-in-blurred-top 0.9s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+          // width: 100%;
+          
+}
+
+
+
+@-webkit-keyframes slide-in-blurred-top {
+  0% {
+    -webkit-transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+            transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+    -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+    -webkit-filter: blur(40px);
+            filter: blur(40px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-filter: blur(0);
+            filter: blur(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-blurred-top {
+  0% {
+    -webkit-transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+            transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+    -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+    -webkit-filter: blur(40px);
+            filter: blur(40px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-filter: blur(0);
+            filter: blur(0);
+    opacity: 1;
+  }
+}
+
+.slide-parm{
+  width: 100%;
+
+}
+
+
+
+
+  
+
+
+@keyframes text-shadow-pop-top {
+  0% {
+    text-shadow: 0 0 #ddd7d7, 0 0 #efefef, 0 0 #ebe5e5, 0 0 #fcf5f5, 0 0 #edecec, 0 0 #dbd2d2, 0 0 #f3f3f3, 0 0 #eae4e4;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  100% {
+    text-shadow: 0 -1px #e1dbdb, 0 -2px #555555, 0 -3px #ddd5d5, 0 -4px #555555, 0 -5px #f3eeee, 0 -6px #555555, 0 -7px #e3dada, 0 -8px #555555;
+    -webkit-transform: translateY(8px);
+            transform: translateY(8px);
+  }
+}
+
+
+
+
+.welcome-message{
+   color: $primary-color; 
+//    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;    
+//    font-size: larger;
+}
+
+
+.kenburns-top{
+	-webkit-animation: kenburns-top 5s ease-out both;
+	        animation: kenburns-top 5s ease-out both;
+}
+
+
+
+@-webkit-keyframes kenburns-top {
+  0% {
+    -webkit-transform: scale(1) translateY(0);
+            transform: scale(1) translateY(0);
+    -webkit-transform-origin: 50% 16%;
+            transform-origin: 50% 16%;
+  }
+  100% {
+    -webkit-transform: scale(1.25) translateY(-15px);
+            transform: scale(1.25) translateY(-15px);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+  }
+}
+@keyframes kenburns-top {
+  0% {
+    -webkit-transform: scale(1) translateY(0);
+            transform: scale(1) translateY(0);
+    -webkit-transform-origin: 50% 16%;
+            transform-origin: 50% 16%;
+  }
+  100% {
+    -webkit-transform: scale(1.25) translateY(-15px);
+            transform: scale(1.25) translateY(-15px);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+  }
+}
+
+
+/* ===== Mobile: show ONLY the middle-flex column ===== */
+@media (max-width: 767.98px) {
+  /* Collapse the product grid to just the middle column */
+  .flex-container {
+    display: block; /* avoid flex gaps/side-effects */
+    width: 100%;
+    height: max-content;    
+  }
+
+  /* Hide all product columns... */
+  .grid-flex-items {
+    display: none !important;
+  }
+
+  /* ...except the middle one */
+  .grid-flex-items.middle-flex {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+
+  /* Make the sweater image fill nicely */
+  .sweater {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    object-fit: cover;
+  }
+}
+
+
