@@ -30,20 +30,20 @@ const ProductList = () => {
 
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
-
+  
 useEffect(() => {
   setLoading(true);
-  fetch("http://localhost:5000/api/products")
+
+  // read the environment variable (works in Vite)
+  const API_BASE = import.meta.env.VITE_API_BASE;
+
+  fetch(`${API_BASE}/api/products`)
     .then((res) => {
-      if (!res.ok) {
-        throw new Error(`Server Error: ${res.status}`);
-      }
+      if (!res.ok) throw new Error(`Server Error: ${res.status}`);
       return res.json();
     })
     .then((data) => {
-      if (!Array.isArray(data)) {
-        throw new Error("Expected an array of products");
-      }
+      if (!Array.isArray(data)) throw new Error("Expected an array of products");
       setProducts(data);
       setFilteredProducts(data);
     })
@@ -54,7 +54,6 @@ useEffect(() => {
       setLoading(false);
     });
 }, []);
-
 
   useEffect(() => {
     let filtered = [...products];
