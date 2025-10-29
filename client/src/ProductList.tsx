@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useCart } from "../src/Components/CartContext";
+import { useCart } from "./Components/CartContext";
 import { useWishlist } from "./Components/WishlistContext";
 import pic from "./images/PLI.png";
 import "../src/Styles/ProductList.scss";
@@ -35,7 +35,7 @@ useEffect(() => {
   setLoading(true);
 
   // read the environment variable (works in Vite)
-  const API_BASE = import.meta.env.VITE_API_BASE;
+ const API_BASE = import.meta.env.VITE_API_BASE || "https://zaradripsboutique.onrender.com";
 
   fetch(`${API_BASE}/api/products`)
     .then((res) => {
@@ -145,65 +145,75 @@ useEffect(() => {
       </div>
 
       <div className="item-holder">
-        {currentProducts.map((product) => (
-          <div key={product._id} className="item">
-            <div className="card name-holderr">
-              <img
-                src={product.image || pic}
-                className="card-img-top"
-                alt={product.name}
-              />
-              <div className="card-body">
-                <div className="item-name-title">
-                  <h5 className="card-title">{product.name}</h5>
-                </div>
-                <div className="price-rater">
-                  <p className="card-text price">₦{product.price}</p>
-                  <p className="card-text">{"⭐".repeat(product.rating)}</p>
-                </div>
-                <div className="other-buttons">
-                  <button
-                    className="btn btn-success me-2"
-                    title="Add to Cart"
-                    onClick={() => addToCart(product._id)}
-                  >
-                    🛒
-                  </button>
+        {currentProducts.map((product) => {
+  const API_BASE = import.meta.env.VITE_API_BASE || "https://zaradripsboutique.onrender.com";
 
-                  <button
-                    className="btn love"
-                    title="Toggle Wishlist"
-                    onClick={() =>
-                      isInWishlist(product._id)
-                        ? removeFromWishlist(product._id)
-                        : addToWishlist(product._id)
-                    }
-                  >
-                    {isInWishlist(product._id) ? (
-                      <Checked />
-                    ) : (
-                      <i
-                        className={`fas fa-heart heart-outline ${
-                          isInWishlist(product._id)
-                            ? "text-danger"
-                            : "text-light animate"
-                        }`}
-                      />
-                    )}
-                  </button>
+  // Make sure image has full URL
+  const imgSrc = product.image?.startsWith("http")
+    ? product.image
+    : `${API_BASE}${product.image}`;
 
-                  <button
-                    className="btn btn-info"
-                    title="View Details"
-                    onClick={() => openModal(product)}
-                  >
-                    👁
-                  </button>
-                </div>
-              </div>
-            </div>
+  return (
+    <div key={product._id} className="item">
+      <div className="card name-holderr">
+        <img
+          src={imgSrc || pic}
+          className="card-img-top"
+          alt={product.name}
+        />
+        <div className="card-body">
+          <div className="item-name-title">
+            <h5 className="card-title">{product.name}</h5>
           </div>
-        ))}
+          <div className="price-rater">
+            <p className="card-text price">₦{product.price}</p>
+            <p className="card-text">{"⭐".repeat(product.rating)}</p>
+          </div>
+          <div className="other-buttons">
+            <button
+              className="btn btn-success me-2"
+              title="Add to Cart"
+              onClick={() => addToCart(product._id)}
+            >
+              🛒
+            </button>
+
+            <button
+              className="btn love"
+              title="Toggle Wishlist"
+              onClick={() =>
+                isInWishlist(product._id)
+                  ? removeFromWishlist(product._id)
+                  : addToWishlist(product._id)
+              }
+            >
+              {isInWishlist(product._id) ? (
+                <Checked />
+              ) : (
+                <i
+                  className={`fas fa-heart heart-outline ${
+                    isInWishlist(product._id)
+                      ? "text-danger"
+                      : "text-light animate"
+                  }`}
+                />
+              )}
+            </button>
+
+            <button
+              className="btn btn-info"
+              title="View Details"
+              onClick={() => openModal(product)}
+            >
+              👁
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+})}
+
       </div>
 
       <nav>
