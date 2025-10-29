@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import AdminStatus from './AdminStatus';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE || "https://zaradripsboutique.onrender.com/api";
+
 // import { API_BASE_URL } from "../config";
 
 

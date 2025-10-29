@@ -3,23 +3,23 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProductList from "./ProductList";
 import AdminDashboard from "./Components/AdminDashboard";
 import Layout from "./Components/Layout";
-import CartPage from "./Pages/CartPage";
-import AdminLogin from "./Pages/AdminLogin";
+import CartPage from "./pages/CartPage";
+import AdminLogin from "./pages/AdminLogin";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import AdminRegister from "./Pages/AdminRegister";
-import HomePage from "./Pages/HomePage";
-import NotFound from "./Pages/NotFound";
+import AdminRegister from "./pages/AdminRegister";
+import HomePage from "./pages/HomePage";
+import NotFound from "./pages/NotFound";
 import { WishlistProvider } from "./Components/WishlistContext";
 import { CartProvider } from "./Components/CartContext";
-import WishlistPage from "./Pages/Wishlist";
-import CheckOut from "./Pages/CheckOut";
-import OrderSuccess from "./Pages/OrderSuccess";
+import WishlistPage from "./pages/Wishlist";
+import CheckOut from "./pages/CheckOut";
+import OrderSuccess from "./pages/OrderSuccess";
 import CustomerRegister from "./pages/CustomerRegister";
 import CustomerLogin from "./pages/CustomerLogin";
 import CustomerProfile from "./pages/CustomerProfile";
 import { AuthProvider } from "./context/AuthContext";
-import AboutPage from "./Pages/AboutPage"
-import BlogPage from "./Pages/BlogPage";
+import AboutPage from "./pages/AboutPage"
+import BlogPage from "./pages/BlogPage";
 
 function App() {
   return (
