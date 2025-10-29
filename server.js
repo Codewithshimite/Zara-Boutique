@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs'); // <-- ensure uploads dir exists
 
 // Load environment variables
 dotenv.config();
@@ -16,12 +17,16 @@ const app = express();
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB Connected'))
-  .catch(err => console.error('❌ MongoDB Connection Error:', err));
+  .catch(err => {
+    console.error('❌ MongoDB Connection Error:', err.message);
+    // Optional: exit so Render shows a clear failure instead of 502 loop
+    // process.exit(1);
+  });
 
 // CORS Configuration (Flexible for Development)
 app.use(cors({
   origin: (origin, callback) => {
-    callback(null, true); // Allow any origin (Flexible for development)
+    callback(null, true); // Allow any origin (dev-friendly)
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -32,13 +37,25 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Ensure uploads directory exists (Render's disk starts empty each deploy)
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Health routes (so / doesn't show "Cannot GET /")
+app.get('/', (_req, res) => {
+  res.json({ ok: true, service: 'ZaraDrips API', time: new Date().toISOString() });
+});
+app.get('/health', (_req, res) => res.send('OK'));
+
 // Serve uploaded images statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(uploadsDir));
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, 'uploads'));
+    cb(null, uploadsDir);
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
@@ -52,7 +69,7 @@ const userRoutes = require('./routes/userRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 const { verifyToken } = require('./middleware/authMiddleware');
 const adminMiddleware = require('./middleware/adminMiddleware');
-const opayRoutes = require("./routes/opay");
+const opayRoutes = require('./routes/opay');
 
 // Product Routes (Multer applied)
 app.use('/api/products', (req, res, next) => {
@@ -71,9 +88,8 @@ app.get('/api/admin/status', verifyToken, adminMiddleware, (req, res) => {
   return res.status(200).json({ status: 'Admin' });
 });
 
-app.use("/api/opay", opayRoutes);
-
+app.use('/api/opay', opayRoutes);
 
 // Server Start
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
