@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-
 import { PRODUCT_API_BASE_URL } from "../config";
 
 const AdminLogin = () => {
@@ -17,7 +16,7 @@ const AdminLogin = () => {
     setError(""); // Reset error message
 
     try {
-      const response = await axios.post(`${ PRODUCT_API_BASE_URL}/users/admin/login`, {
+      const response = await axios.post<{token: string}>(`${PRODUCT_API_BASE_URL}/users/admin/login`, {
         email,
         password,
       });

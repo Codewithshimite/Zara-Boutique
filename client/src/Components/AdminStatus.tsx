@@ -20,7 +20,7 @@ const AdminStatus = () => {
       }
 
       try {
-  const response = await axios.get(`${API_BASE_URL}/admin/status`, {
+  const response = await axios.get<{ status: string }>(`${API_BASE_URL}/admin/status`, {
     headers: { Authorization: `Bearer ${token}` },
   });
         setStatus(response.data.status);

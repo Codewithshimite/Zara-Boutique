@@ -29,7 +29,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (token) {
         try {
-          const res = await axios.get(apiRoute, {
+          const res = await axios.get<{ productId: { _id: string }; quantity: number }[]>(apiRoute, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const serverCart = res.data.reduce((acc: any, item: any) => {
