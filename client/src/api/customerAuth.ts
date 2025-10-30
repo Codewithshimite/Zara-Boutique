@@ -17,6 +17,11 @@ const API = axios.create({
   timeout: 15000,
 });
 
+// ✅ Define a type for expected responses
+export interface AuthResponse {
+  token: string;
+}
+
 // ---------------------------
 // Auth API
 // ---------------------------
@@ -29,10 +34,12 @@ export const registerCustomer = async (
   username: string,
   email: string,
   password: string
-) => {
-  // IMPORTANT: don't wrap in try/catch so axios errors propagate,
-  // allowing your component to use err.response?.data?.message
-  const res = await API.post("/customers/register", { username, email, password });
+): Promise<AuthResponse> => {
+  const res = await API.post<AuthResponse>("/customers/register", {
+    username,
+    email,
+    password,
+  });
   return res.data;
 };
 
@@ -40,7 +47,10 @@ export const registerCustomer = async (
  * Login a customer
  * POST /api/customers/login
  */
-export const loginCustomer = async (email: string, password: string) => {
-  const res = await API.post("/customers/login", { email, password });
+export const loginCustomer = async (
+  email: string,
+  password: string
+): Promise<AuthResponse> => {
+  const res = await API.post<AuthResponse>("/customers/login", { email, password });
   return res.data;
 };

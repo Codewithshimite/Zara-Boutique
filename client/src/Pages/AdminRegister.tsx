@@ -10,7 +10,7 @@ const AdminRegister = () => {
     e.preventDefault();
     
     try {
-      const response = await axios.post('http://localhost:5000/api/users/admin/register', {
+      const response = await axios.post<{token: string}>('http://localhost:5000/api/users/admin/register', {
         username,
         email,
         password,

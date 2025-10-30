@@ -9,7 +9,9 @@
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "engines": { "node": "20.x" },
+  "engines": {
+    "node": "20.x"
+  },
   "keywords": [],
   "author": "Shimite",
   "license": "ISC",
