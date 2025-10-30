@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// Expect VITE_API_BASE_URL to be like: http://localhost:5000/api
-const RAW_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+// Expect VITE_API_BASE to be like: http://localhost:5000/api
+const RAW_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
 
 // Safe join to avoid double slashes regardless of env formatting
 function joinURL(base: string, path: string) {
