@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { getProfile, updateProfile } from "../api/customerProfile";
+// src/Pages/CustomerProfile.tsx
+import React, { useEffect, useState } from "react";
+import { getProfile, updateProfile, CustomerProfileDTO } from "../api/customerProfile";
 import "../Styles/CustomerProfile.scss";
 
 type CustomerShape = {
@@ -14,6 +15,10 @@ const asCustomer = (val: any): CustomerShape => {
   return { firstName: "", lastName: "", address: "", profilePicture: "" };
 };
 
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://zaradripsboutique.onrender.com"; // fallback for safety
+
 const CustomerProfile: React.FC = () => {
   const [profile, setProfile] = useState<CustomerShape>({
     firstName: "",
@@ -25,6 +30,7 @@ const CustomerProfile: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isFetching, setIsFetching] = useState(true);
+
   const token =
     typeof window !== "undefined" ? localStorage.getItem("customerToken") : null;
 
@@ -78,25 +84,36 @@ const CustomerProfile: React.FC = () => {
     const firstName = (profile.firstName ?? "").trim();
     const lastName = (profile.lastName ?? "").trim();
     const address = (profile.address ?? "").trim();
-    const hasFile = Boolean(file);
 
     try {
-      const updated = await updateProfile(token, {
-        firstName: firstName || undefined,
-        lastName: lastName || undefined,
-        address: address || undefined,
-        file: file ?? null,
-        // If backend expects snake_case or a different file key, uncomment and adjust:
-        // map: { firstName: "first_name", lastName: "last_name", address: "address", file: "avatar" },
-        method: hasFile ? "PUT" : "PATCH",
-      });
+      let payload: FormData | CustomerProfileDTO;
 
-      const normalized = asCustomer(updated?.data ?? updated);
+      if (file) {
+        // ✅ multipart/form-data when a file is present
+        const fd = new FormData();
+        if (firstName) fd.append("firstName", firstName);
+        if (lastName) fd.append("lastName", lastName);
+        if (address) fd.append("address", address);
+        fd.append("file", file);
+        payload = fd;
+      } else {
+        // ✅ JSON when no file
+        payload = {
+          ...(firstName && { firstName }),
+          ...(lastName && { lastName }),
+          ...(address && { address }),
+        };
+      }
+
+      const updated = await updateProfile(token, payload);
+      const normalized = asCustomer((updated as any)?.data ?? updated);
+
       setProfile({
         firstName: normalized.firstName ?? firstName,
         lastName: normalized.lastName ?? lastName,
         address: normalized.address ?? address,
-        profilePicture: normalized.profilePicture ?? profile.profilePicture ?? "",
+        profilePicture:
+          normalized.profilePicture ?? profile.profilePicture ?? "",
       });
       setMessage("Profile updated successfully!");
       setFile(null);
@@ -112,22 +129,23 @@ const CustomerProfile: React.FC = () => {
     try {
       localStorage.removeItem("customerToken");
     } catch {}
-    // Use window navigation (no Router required)
     if (typeof window !== "undefined") {
       window.location.href = "/customer/login";
     }
   };
 
-  // Build image src safely
+  // Build image src safely (works in dev and on Vercel)
   const pictureSrc = (() => {
     if (file) return URL.createObjectURL(file);
     const pic = profile.profilePicture ?? "";
     if (!pic) return "";
     if (typeof pic !== "string") return "";
-    return pic.startsWith("http") ? pic : `http://localhost:5000${pic}`;
+    return pic.startsWith("http")
+      ? pic
+      : `${API_BASE}${pic.startsWith("/") ? "" : "/"}${pic}`;
   })();
 
-  // No token → show CTA (don’t crash)
+  // No token → show CTA
   if (!token) {
     return (
       <div className="container mt-5">
@@ -143,7 +161,6 @@ const CustomerProfile: React.FC = () => {
     );
   }
 
-  // Loading state
   if (isFetching) {
     return (
       <div className="container mt-5">

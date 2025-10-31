@@ -3,10 +3,10 @@ import axios from "axios";
 
 /**
  * BASE URL
- * Set VITE_API_BASE in your frontend .env (e.g., http://localhost:5000/api)
+ * Set VITE_API_BASE_URL in your frontend .env (e.g., http://localhost:5000/api)
  * Falls back to http://localhost:5000/api for local dev.
  */
-const RAW_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
+const RAW_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 const BASE = RAW_BASE.replace(/\/+$/, ""); // trim trailing slashes
 
 // Shared axios instance
