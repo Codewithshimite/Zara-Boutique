@@ -1,8 +1,9 @@
 // src/api/customerProfile.ts
 import axios from "axios";
-import { PRODUCT_API_BASE_URL } from "../config"; // e.g. https://zaradripsboutique.onrender.com
+import { PRODUCT_API_BASE_URL } from "../config"; // e.g., https://zaradripsboutique.onrender.com
 
-// ✅ Exported type for use in CustomerProfile.tsx
+const token = typeof window !== "undefined" ? localStorage.getItem("customerToken") : null;
+
 export type CustomerProfileDTO = {
   firstName?: string;
   lastName?: string;
@@ -13,13 +14,13 @@ export type CustomerProfileDTO = {
 type JsonBody = Record<string, any>;
 
 const API = axios.create({
-  baseURL: PRODUCT_API_BASE_URL, // e.g., https://zaradripsboutique.onrender.com
+  baseURL: PRODUCT_API_BASE_URL, // ✅ no trailing /api
   withCredentials: false,
   headers: { "Content-Type": "application/json" },
   timeout: 15000,
 });
 
-// ✅ Fetch customer profile
+// ✅ Correct endpoints (your routes.js confirms these exist)
 export const getProfile = async (token: string) => {
   const res = await API.get("/api/customers/profile", {
     headers: { Authorization: `Bearer ${token}` },
@@ -27,7 +28,6 @@ export const getProfile = async (token: string) => {
   return res;
 };
 
-// ✅ Update customer profile (accepts FormData or JSON)
 export const updateProfile = async (
   token: string,
   data: FormData | JsonBody
