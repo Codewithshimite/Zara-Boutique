@@ -1,7 +1,7 @@
 // src/Pages/OrderSuccess.tsx
 import React from "react";
 import { Link } from "react-router-dom";
-import "../Styles/OrderSuccess.scss"; // optional for styling
+import "../Styles/orderSuccess.scss" // optional for styling
 
 const OrderSuccess: React.FC = () => {
   return (
