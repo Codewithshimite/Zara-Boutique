@@ -1,50 +1,45 @@
+// src/api/customerProfile.ts
 import axios from "axios";
+import { PRODUCT_API_BASE_URL } from "../config"; // e.g. https://zaradripsboutique.onrender.com
 
-// Expect VITE_API_BASE_URL to be like: http://localhost:5000/api
-const RAW_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
-
-// Safe join to avoid double slashes regardless of env formatting
-function joinURL(base: string, path: string) {
-  return `${base.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
-}
-
-// Your server is mounted at /api/customers  (PLURAL)
-const PROFILE_URL = joinURL(RAW_BASE, "/customers/profile");
-
-export const getProfile = async (token: string) => {
-  try {
-    const res = await axios.get(PROFILE_URL, {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: false,
-    });
-    return res.data;
-  } catch (err: any) {
-    const msg =
-      err?.response?.data?.message ||
-      err?.response?.data?.error ||
-      err?.message ||
-      "Failed to load profile.";
-    // Surface useful info for your UI and console
-    console.error("getProfile error:", err?.response?.data || err);
-    throw new Error(msg);
-  }
+// ✅ Exported type for use in CustomerProfile.tsx
+export type CustomerProfileDTO = {
+  firstName?: string;
+  lastName?: string;
+  address?: string;
+  profilePicture?: string;
 };
 
-export const updateProfile = async (token: string, formData: FormData) => {
-  try {
-    const res = await axios.put(PROFILE_URL, formData, {
-      headers: { Authorization: `Bearer ${token}` },
-      // DO NOT set Content-Type; axios will add the multipart boundary
-      withCredentials: false,
-    });
-    return res.data;
-  } catch (err: any) {
-    const msg =
-      err?.response?.data?.message ||
-      err?.response?.data?.error ||
-      err?.message ||
-      "Failed to update profile.";
-    console.error("updateProfile error:", err?.response?.data || err);
-    throw new Error(msg);
-  }
+type JsonBody = Record<string, any>;
+
+const API = axios.create({
+  baseURL: PRODUCT_API_BASE_URL, // e.g., https://zaradripsboutique.onrender.com
+  withCredentials: false,
+  headers: { "Content-Type": "application/json" },
+  timeout: 15000,
+});
+
+// ✅ Fetch customer profile
+export const getProfile = async (token: string) => {
+  const res = await API.get("/api/customers/profile", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res;
+};
+
+// ✅ Update customer profile (accepts FormData or JSON)
+export const updateProfile = async (
+  token: string,
+  data: FormData | JsonBody
+) => {
+  const isForm = typeof FormData !== "undefined" && data instanceof FormData;
+
+  const res = await API.put("/api/customers/profile", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      ...(isForm ? {} : { "Content-Type": "application/json" }),
+    },
+  });
+
+  return res;
 };
