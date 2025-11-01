@@ -4,20 +4,41 @@ import { useCart } from "./Components/CartContext";
 import { useWishlist } from "./Components/WishlistContext";
 import pic from "./images/PLI.png";
 import "../src/Styles/ProductList.scss";
-
+import { PRODUCT_API_BASE_URL } from "./config";
 import Checked from "./Components/Checked";
 
 interface Product {
-  _id: string;
+  _id?: string;
+  id?: string;
   name: string;
   price: number;
-  rating: number;
+  rating?: number;
   category: string;
   image: string;
   description: string;
 }
 
-const ProductList = () => {
+const API_ORIGIN = PRODUCT_API_BASE_URL.replace(/\/api\/?$/, "");
+
+const makeImgSrc = (image?: string) => {
+  if (!image) return "";
+  if (image.startsWith("http")) return image;
+  const path = image.startsWith("/") ? image : `/${image}`;
+  return `${API_ORIGIN}${path}`;
+};
+
+// Normalize product id shape
+const pid = (p: Product) => (p._id ?? p.id ?? "").toString();
+
+// Ensure absolute image URL using the same base as API
+// const makeImgSrc = (image?: string) => {
+//   if (!image) return "";
+//   if (image.startsWith("http")) return image;
+//   const path = image.startsWith("/") ? image : `/${image}`;
+//   return `${PRODUCT_API_BASE_URL}${path}`;
+// };
+
+const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,30 +51,40 @@ const ProductList = () => {
 
   const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
-  
-useEffect(() => {
-  setLoading(true);
 
-  // read the environment variable (works in Vite)
- const API_BASE = import.meta.env.VITE_API_BASE || "https://zaradripsboutique.onrender.com";
+  useEffect(() => {
+    setLoading(true);
+    // Debug: confirm the base URL you’re calling
+    console.log("PRODUCT_API_BASE_URL:", PRODUCT_API_BASE_URL);
 
-  fetch(`${API_BASE}/api/products`)
-    .then((res) => {
-      if (!res.ok) throw new Error(`Server Error: ${res.status}`);
-      return res.json();
-    })
-    .then((data) => {
-      if (!Array.isArray(data)) throw new Error("Expected an array of products");
-      setProducts(data);
-      setFilteredProducts(data);
-    })
-    .catch((error) => {
-      console.error("Error fetching products:", error);
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-}, []);
+    fetch(`${PRODUCT_API_BASE_URL}/products`)
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`Server Error: ${res.status}`);
+        const data = await res.json();
+        console.log("Products API raw response:", data);
+
+        // Accept common shapes: [], {products:[]}, {data:[]}
+        const arr: Product[] =
+          Array.isArray(data)
+            ? data
+            : Array.isArray((data as any)?.products)
+            ? (data as any).products
+            : Array.isArray((data as any)?.data)
+            ? (data as any).data
+            : [];
+
+        setProducts(arr);
+        setFilteredProducts(arr);
+      })
+      .catch((error) => {
+        console.error("Error fetching products:", error);
+        setProducts([]);
+        setFilteredProducts([]);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     let filtered = [...products];
@@ -63,9 +94,8 @@ useEffect(() => {
     }
 
     if (searchTerm) {
-      filtered = filtered.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter((product) => product.name.toLowerCase().includes(term));
     }
 
     if (sortOption === "priceLowHigh") {
@@ -73,7 +103,7 @@ useEffect(() => {
     } else if (sortOption === "priceHighLow") {
       filtered.sort((a, b) => b.price - a.price);
     } else if (sortOption === "rating") {
-      filtered.sort((a, b) => b.rating - a.rating);
+      filtered.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
     }
 
     setFilteredProducts(filtered);
@@ -82,18 +112,16 @@ useEffect(() => {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  
+
   const currentProducts = Array.isArray(filteredProducts)
-  ? filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct)
-  : [];
+    ? filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct)
+    : [];
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   const openModal = (product: Product) => setSelectedProduct(product);
   const closeModal = () => setSelectedProduct(null);
 
-  const isInWishlist = (productId: string) => {
-    return wishlist?.[productId] !== undefined;
-  };
+  const isInWishlist = (productId: string) => Boolean(wishlist?.[productId]);
 
   if (loading)
     return (
@@ -104,7 +132,19 @@ useEffect(() => {
       </div>
     );
 
-    
+  // Empty-state (so the page isn’t blank)
+  if (!loading && products.length === 0) {
+    return (
+      <div className="container mt-5">
+        <h5 className="text-center mb-3">No products to display</h5>
+        <p className="text-center text-muted">
+          We couldn’t load products. Open DevTools → Network and check the response for
+          <code> {PRODUCT_API_BASE_URL}/products</code>.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="container mother">
       <div className="arena-holder container">
@@ -146,74 +186,65 @@ useEffect(() => {
 
       <div className="item-holder">
         {currentProducts.map((product) => {
-  const API_BASE = import.meta.env.VITE_API_BASE || "https://zaradripsboutique.onrender.com";
+          const imgSrc = makeImgSrc(product.image) || pic;
 
-  // Make sure image has full URL
-  const imgSrc = product.image?.startsWith("http")
-    ? product.image
-    : `${API_BASE}${product.image}`;
+          return (
+            <div key={pid(product)} className="item">
+              <div className="card name-holderr">
+                <img src={imgSrc} className="card-img-top" alt={product.name} />
+                <div className="card-body">
+                  <div className="item-name-title">
+                    <h5 className="card-title">{product.name}</h5>
+                  </div>
+                  <div className="price-rater">
+                    <p className="card-text price">₦{product.price}</p>
+                    <p className="card-text">{"⭐".repeat(product.rating ?? 0)}</p>
+                  </div>
 
-  return (
-    <div key={product._id} className="item">
-      <div className="card name-holderr">
-        <img
-          src={imgSrc || pic}
-          className="card-img-top"
-          alt={product.name}
-        />
-        <div className="card-body">
-          <div className="item-name-title">
-            <h5 className="card-title">{product.name}</h5>
-          </div>
-          <div className="price-rater">
-            <p className="card-text price">₦{product.price}</p>
-            <p className="card-text">{"⭐".repeat(product.rating)}</p>
-          </div>
-          <div className="other-buttons">
-            <button
-              className="btn btn-success me-2"
-              title="Add to Cart"
-              onClick={() => addToCart(product._id)}
-            >
-              🛒
-            </button>
+                  <div className="other-buttons">
+                    <button
+                      className="btn btn-success me-2"
+                      title="Add to Cart"
+                      onClick={() => addToCart(pid(product))}
+                    >
+                      🛒
+                    </button>
 
-            <button
-              className="btn love"
-              title="Toggle Wishlist"
-              onClick={() =>
-                isInWishlist(product._id)
-                  ? removeFromWishlist(product._id)
-                  : addToWishlist(product._id)
-              }
-            >
-              {isInWishlist(product._id) ? (
-                <Checked />
-              ) : (
-                <i
-                  className={`fas fa-heart heart-outline ${
-                    isInWishlist(product._id)
-                      ? "text-danger"
-                      : "text-light animate"
-                  }`}
-                />
-              )}
-            </button>
+                    <button
+                      className="btn love"
+                      title="Toggle Wishlist"
+                      onClick={() =>
+                        isInWishlist(pid(product))
+                          ? removeFromWishlist(pid(product))
+                          : addToWishlist(pid(product))
+                      }
+                    >
+                      {isInWishlist(pid(product)) ? (
+                        <Checked />
+                      ) : (
+                        <i
+                          className={`fas fa-heart heart-outline ${
+                            isInWishlist(pid(product))
+                              ? "text-danger"
+                              : "text-light animate"
+                          }`}
+                        />
+                      )}
+                    </button>
 
-            <button
-              className="btn btn-info"
-              title="View Details"
-              onClick={() => openModal(product)}
-            >
-              👁
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-})}
-
+                    <button
+                      className="btn btn-info"
+                      title="View Details"
+                      onClick={() => openModal(product)}
+                    >
+                      👁
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <nav>
@@ -231,7 +262,6 @@ useEffect(() => {
         </ul>
       </nav>
 
-
       {selectedProduct && (
         <div
           className="modal fade show d-block"
@@ -240,11 +270,10 @@ useEffect(() => {
           aria-hidden="false"
           onClick={closeModal}
         >
-           <div
+          <div
             className="modal-dialog modal-lg"
             role="document"
             onClick={(e) => e.stopPropagation()}
-           
           >
             <div className="modal-content mode">
               <div className="modal-header plp-modal-head">
@@ -252,27 +281,27 @@ useEffect(() => {
               </div>
               <div className="modal-body">
                 <div className="plp-modal-image">
-                   <img
-                  src={selectedProduct.image || pic}
-                  alt={selectedProduct.name}
-                  className="img-fluid"
-                />
+                  <img
+                    src={makeImgSrc(selectedProduct.image) || pic}
+                    alt={selectedProduct.name}
+                    className="img-fluid"
+                  />
                 </div>
-              
+
                 <div>
-                <p className="modal-detail">{selectedProduct.description}</p>
-                <p>Price: ₦{selectedProduct.price}</p>
-                <p>{"⭐".repeat(selectedProduct.rating)}</p>
+                  <p className="modal-detail">{selectedProduct.description}</p>
+                  <p>Price: ₦{selectedProduct.price}</p>
+                  <p>{"⭐".repeat(selectedProduct.rating ?? 0)}</p>
                 </div>
-                
               </div>
+
               <div className="modal-footer">
                 <button className="btn btn-secondary" onClick={closeModal}>
                   Close
                 </button>
                 <button
                   className="btn btn-success"
-                  onClick={() => addToCart(selectedProduct._id)}
+                  onClick={() => addToCart(pid(selectedProduct))}
                 >
                   🛒 Add to Cart
                 </button>

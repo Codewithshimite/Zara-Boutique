@@ -52,7 +52,6 @@ function App() {
                 {/* 404 Page */}
                 <Route path="*" element={<NotFound />} />
               </Route>
-
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/register" element={<AdminRegister />} />
