@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
-import AdminStatus from './AdminStatus';
+import React, { useEffect, useState } from "react";
+import AdminStatus from "./AdminStatus";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE || "https://zaradripsboutique.onrender.com/api";
+// ✅ Use localhost as default for development
+const RAW_API_BASE_URL =
+  import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
 
-// import { API_BASE_URL } from "../config";
-
+// ✅ Normalise: remove trailing slash if present
+const API_BASE_URL = RAW_API_BASE_URL.endsWith("/")
+  ? RAW_API_BASE_URL.slice(0, -1)
+  : RAW_API_BASE_URL;
 
 interface Product {
   _id: string;
@@ -26,7 +30,7 @@ interface NewProductForm {
   image: File | null;
 }
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [newProduct, setNewProduct] = useState<NewProductForm>({
@@ -39,22 +43,39 @@ const Dashboard = () => {
     image: null,
   });
 
+  // 🔹 Fetch products on mount
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/products`);
+        console.log("🔍 Fetching products from:", `${API_BASE_URL}/products`);
+        const res = await fetch(`${API_BASE_URL}/products`);
+
+        if (!res.ok) {
+          const text = await res.text();
+          console.error(
+            "Error fetching products:",
+            res.status,
+            res.statusText,
+            text
+          );
+          return;
+        }
+
         const data = await res.json();
         setProducts(data);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching products (network error):", error);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProducts();
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setNewProduct((prev) => ({ ...prev, [name]: value }));
   };
@@ -68,7 +89,7 @@ const Dashboard = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic validation can be expanded as needed
+    // Basic validation
     if (
       !newProduct.name.trim() ||
       !newProduct.price ||
@@ -77,14 +98,18 @@ const Dashboard = () => {
       !newProduct.category.trim() ||
       (!newProduct._id && !newProduct.image)
     ) {
-      alert("Please fill in all required fields and select an image for new products.");
+      alert(
+        "Please fill in all required fields and select an image for new products."
+      );
       return;
     }
 
     const method = newProduct._id ? "PUT" : "POST";
     const url = newProduct._id
-      ? `${API_BASE_URL}products/${newProduct._id}`
+      ? `${API_BASE_URL}/products/${newProduct._id}`
       : `${API_BASE_URL}/products`;
+
+    console.log(`📦 ${method} product to:`, url);
 
     try {
       const formData = new FormData();
@@ -104,7 +129,13 @@ const Dashboard = () => {
       });
 
       if (!response.ok) {
-        console.error("Failed to save product");
+        const errText = await response.text();
+        console.error(
+          "❌ Failed to save product:",
+          response.status,
+          response.statusText,
+          errText
+        );
         alert("Failed to save product");
         return;
       }
@@ -113,7 +144,9 @@ const Dashboard = () => {
 
       setProducts((prev) =>
         newProduct._id
-          ? prev.map((p) => (p._id === updatedProduct._id ? updatedProduct : p))
+          ? prev.map((p) =>
+              p._id === updatedProduct._id ? updatedProduct : p
+            )
           : [...prev, updatedProduct]
       );
 
@@ -128,7 +161,7 @@ const Dashboard = () => {
         image: null,
       });
     } catch (error) {
-      console.error("Error saving product:", error);
+      console.error("🔥 Error saving product (network or CORS):", error);
       alert("Error saving product. See console for details.");
     }
   };
@@ -141,21 +174,31 @@ const Dashboard = () => {
       description: product.description,
       rating: String(product.rating),
       category: product.category,
-      image: null, // Reset image on edit to require new upload if needed
+      image: null, // Only upload new image if user picks a file
     });
   };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
 
+    const url = `${API_BASE_URL}/products/${id}`;
+    console.log("🗑️ DELETE product:", url);
+
     try {
-      const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+      const response = await fetch(url, {
         method: "DELETE",
       });
+
       if (response.ok) {
         setProducts((prev) => prev.filter((product) => product._id !== id));
       } else {
-        console.error("Failed to delete product");
+        const text = await response.text();
+        console.error(
+          "Failed to delete product:",
+          response.status,
+          response.statusText,
+          text
+        );
         alert("Failed to delete product");
       }
     } catch (error) {
@@ -208,7 +251,7 @@ const Dashboard = () => {
           onChange={handleChange}
           required
           style={{ padding: 8, width: 250, height: 60 }}
-        ></textarea>
+        />
         <input
           type="number"
           name="rating"
@@ -235,7 +278,7 @@ const Dashboard = () => {
           name="image"
           accept="image/*"
           onChange={handleImageChange}
-          // Only require image field if creating new product, not editing
+          // Only require image for new products
           required={!newProduct._id}
           style={{ padding: 8, width: 250 }}
         />
@@ -270,11 +313,10 @@ const Dashboard = () => {
               borderRadius: 8,
               padding: 15,
               width: 250,
-              boxShadow: "2px 2px 10px rgba(0,0,0,0.1)",
+              boxShadow: "2px 2px 10px rgba(0, 0, 0, 0.1)",
               textAlign: "center",
             }}
           >
-            
             <h3>{product.name}</h3>
             <p>
               <strong>Category:</strong> {product.category}
@@ -286,7 +328,12 @@ const Dashboard = () => {
               <img
                 src={product.imageUrl}
                 alt={product.name}
-                style={{ maxWidth: "100%", height: "auto", marginBottom: 12, borderRadius: 6 }}
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                  marginBottom: 12,
+                  borderRadius: 6,
+                }}
               />
             )}
 
@@ -295,11 +342,14 @@ const Dashboard = () => {
                 <span key={`full-${i}`}>★</span>
               ))}
               {product.rating % 1 >= 0.5 && <span key="half">⯨</span>}
-              {Array.from({ length: 5 - Math.ceil(product.rating) }, (_, i) => (
-                <span key={`empty-${i}`} style={{ color: "#ccc" }}>
-                  ★
-                </span>
-              ))}
+              {Array.from(
+                { length: 5 - Math.ceil(product.rating) },
+                (_, i) => (
+                  <span key={`empty-${i}`} style={{ color: "#ccc" }}>
+                    ★
+                  </span>
+                )
+              )}
             </div>
 
             <button
