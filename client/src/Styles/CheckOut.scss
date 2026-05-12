@@ -2,7 +2,7 @@
 
 
 .checkout-container {
-  max-width: 80%;
+  max-width: 90%;
   margin: 4rem auto;
   padding: 2rem;
   border: 10px solid $primary-color;
@@ -14,7 +14,6 @@
 }
 
 .checkout-title {
-  
   margin-bottom: 2rem;
 }
 
@@ -34,7 +33,7 @@
 }
 
 .checkout-form{
-  width: 65%;
+  width: 30%;
 }
 
 .email{
@@ -46,4 +45,23 @@
   width: 40%;
   display: inline-block;
   margin-left: 5%;
+}
+
+
+//mobile view
+@media (max-width: 768px) {
+  .checkout-container {
+    flex-direction: column-reverse;
+    // background-color: green !important;
+    width: 100%;
+  }
+
+  .checkout-form{
+  width: 100%;
+}
+
+.checkout-summary{
+  width: 100%;
+}
+
 }

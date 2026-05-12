@@ -1,5 +1,6 @@
 import React from "react";
 import "../Styles/AboutPage.scss";
+import CeoPicture from '../images/shim.jpeg'
 
 // ——— Types ———
 type Stat = { label: string; value: string };
@@ -58,15 +59,15 @@ const values: Value[] = [
 
 const timeline: Milestone[] = [
   { year: "May 2025", title: "We launched", description: "Started in a tiny studio store with a big mission: better everyday essentials and consistency." },
-  { year: "July 2025", title: "100k orders", description: "Scaled our logistics and delivery to various locations." },
-  { year: "dec 2025", title: "Circular program", description: "Introduced trade‑in and refurbishment to reduce waste." },
-  { year: "2025", title: "Formed a national community", description: "Customers in across home state and counting." },
+  { year: "July 2025", title: "100+ orders", description: "Scaled our logistics and delivery to various locations." },
+  { year: "Feb 2026", title: "Relocation", description: "Moved to a bigger and better store to suit our customer view expectations" },
+  { year: "2026", title: "Formed a national community", description: "Customers in across home state and counting as family." },
 ];
 
 const team: TeamMember[] = [
-  { name: "Shimite Akejelu, Msc.", role: "CEO & Co‑founder", avatar: "https://www.shutterstock.com/image-vector/handsome-black-man-young-front-600nw-2127472937.jpg" },
-  { name: "Joyce NC, Msc.", role: "Head of Merchandising", avatar: "https://www.shutterstock.com/image-vector/black-woman-smiling-portrait-vector-600nw-2281497689.jpg" },
-  { name: "Zara Akejelu.", role: "Manager", avatar: "https://png.pngtree.com/png-vector/20240914/ourmid/pngtree-cute-black-girl-vector-png-image_12924579.png" },
+  { name: "Shimite Akejelu, Msc.", role: "CEO & Co‑founder", avatar: CeoPicture },
+  // { name: "Joyce NC, Msc.", role: "Head of Merchandising", avatar: "https://www.shutterstock.com/image-vector/black-woman-smiling-portrait-vector-600nw-2281497689.jpg" },
+  // { name: "Zara Akejelu.", role: "Manager", avatar: "https://png.pngtree.com/png-vector/20240914/ourmid/pngtree-cute-black-girl-vector-png-image_12924579.png" },
 ];
 
 const faqs: FAQ[] = [
@@ -83,7 +84,7 @@ function Section({ children, className = "" }: React.PropsWithChildren<{ classNa
 
 function StatItem({ label, value }: Stat) {
   return (
-    <div className="card shadow-sm border-0 h-100 about-stat">
+    <div className="card border-0 h-100 about-stat">
       <div className="card-body">
         <div className="h3 fw-semibold mb-1">{value}</div>
         <div className="text-secondary small">{label}</div>
@@ -94,8 +95,8 @@ function StatItem({ label, value }: Stat) {
 
 function ValueCard({ title, description, icon }: Value) {
   return (
-    <div className="card h-100 shadow-sm ">
-      <div className="card-body">
+    <div className="card h-100 shadow-sm">
+      <div className="card-body value">
         <div className="d-inline-flex align-items-center justify-content-center rounded-3 bg-light p-2 mb-3">
           {icon}
         </div>
@@ -118,9 +119,9 @@ function TimelineItem({ year, title, description }: Milestone) {
 
 function TeamCard({ name, role, avatar }: TeamMember) {
   return (
-    <div className="card shadow-sm h-100 team-card">
+    <div className="card shadow-sm h-100 team-card ">
       <img src={avatar} alt={name} className="card-img-top object-fit-cover" style={{ height: 160 }} />
-      <div className="card-body">
+      <div className="card-body bg-dark">
         <div className="fw-medium">{name}</div>
         <div className="text-secondary small">{role}</div>
       </div>
@@ -191,7 +192,7 @@ export default function AboutPage() {
             <p className="text-secondary mb-0">Four principles guide every product, purchase, and package we ship.</p>
           </div>
         </div>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 ">
           {values.map((v) => (
             <div className="col" key={v.title}><ValueCard {...v} /></div>
           ))}
@@ -212,7 +213,7 @@ export default function AboutPage() {
               ))}
             </div>
           </div>
-          <div className="col-lg-6 ">
+          <div className="col-lg-6">
             <div className="card h-100 shadow-sm mother">
               <div className="card-body">
                 <h3 className="h6 fw-semibold">Built with responsibility</h3>
@@ -221,6 +222,8 @@ export default function AboutPage() {
                   <li>Recycled or low‑impact materials where possible</li>
                   <li>Carbon‑neutral shipping and right‑size packaging</li>
                   <li>Trade‑in, repair, and refurbishment options</li>
+                  <li>Convinient in store collection for security</li>
+                  <li>Statutory seclection for adult wears</li>
                 </ul>
               </div>
             </div>
@@ -229,27 +232,36 @@ export default function AboutPage() {
       </Section>
 
       {/* Team */}
-      <Section>
-        <div className="d-flex align-items-end justify-content-between mb-3">
-          <div>
-            <h2 className="h2 fw-bold mb-1">Meet the team</h2>
-            <p className="text-secondary mb-0">A small crew of builders, operators, and support pros behind your favorite carts.</p>
-          </div>
-        </div>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+     <div className="ceo-section">
+        <h3 className="meet ">Meet the Founder</h3>
+        
           {team.map((t) => (
-            <div className="col" key={t.name}><TeamCard {...t} /></div>
+            <div key={t.name} className="ceo-image">
+              <TeamCard {...t} />
+              </div>
           ))}
-        </div>
-      </Section>
+          
+       
+       <div>A multi-disciplinary professional blending social science, software engineering, and interest in fashion business. Shimite is
+        <br />  
+      driven by growth, persistence, and the belief that fashion should never break your pocket also style should be accessible  <br /> and affordable without compromise. 
+       </div>
+     
+      </div>
 
       {/* Testimonials */}
       <Section>
         <figure className="p-4 p-md-5 bg-light rounded-4 border text-center mx-auto" style={{ maxWidth: 920 }}>
           <blockquote className="blockquote fs-5 mb-1">
-            “Finally—quality basics that don’t break the bank. Delivery was fast, returns were seamless, and customer care felt human.”
+            “Finally, quality fashion that don’t break the bank. Delivery was fast, returns were seamless, and customer care felt human.”
           </blockquote>
-          <figcaption className="blockquote-footer mt-1 mb-0">Aminat B. <cite title="Source">Verified Customer</cite></figcaption>
+          <figcaption className="blockquote-footer mt-1 mb-0">Mbah. <cite title="Source">Verified Customer</cite></figcaption>
+        </figure>
+        <figure className="p-4 p-md-5 bg-light rounded-4 border text-center mx-auto" style={{ maxWidth: 920 }}>
+          <blockquote className="blockquote fs-5 mb-1">
+            “The quality of clothes and shoes was exactly what  wanted.”
+          </blockquote>
+          <figcaption className="blockquote-footer mt-1 mb-0">Folu. <cite title="Source">Verified Customer</cite></figcaption>
         </figure>
       </Section>
 
@@ -269,7 +281,7 @@ export default function AboutPage() {
           <h3 className="h2 fw-semibold">Ready to explore the catalog?</h3>
           <p className="text-secondary mb-3">Join 20k+ customers who shop smarter with us. New drops weekly.</p>
           <div className="d-flex justify-content-center gap-2">
-            <a href="/ProductList" className="btn btn-dark">Shop our collections</a>
+            <a href="/ProductList" className="btn collection-btn">Shop our collections</a>
             <a href="https://api.whatsapp.com/send?phone=2349061830593&text=Hello%2C%20I%20want%20to%20make%20payment%20for%20my%20order." className="btn btn-outline-secondary">Talk to support</a>
           </div>
         </div>

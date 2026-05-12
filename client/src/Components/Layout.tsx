@@ -6,6 +6,7 @@ import { useCart } from "../Components/CartContext";
 import Footer from "../Components/Footer";
 import Home from '../navDessigns/HomeNav';
 import { useWishlist } from "./WishlistContext";
+import zaraDrips from '../images/zaradrips-logo.jpeg'
 
 // ... imports remain the same
 
@@ -17,21 +18,15 @@ const Layout = () => {
 
   const toggleMenu = () => setMenuOpen(prev => !prev);
   const closeMenu = () => setMenuOpen(false);
-
-  // useEffect(() => {
-  //   // Check if user is logged in (adjust this based on your authentication logic)
-  //   const isLoggedIn = localStorage.getItem("authToken"); // Replace with your own logic
-  //   if (isLoggedIn) {
-  //     navigate("customer/profile");
-  //   }else{('/')}
-  // }, [navigate]);
-
   return (
     <div className={`d-flex flex-column whole ${menuOpen ? "menu-open" : ""}`}>
       {/* Header */}
-      <header className="container-fluid bg-dark nav-links py-3 headline">
+      <header className="container-fluid nav-links py-3 headline">
         <div className="container d-flex justify-content-between align-items-center">
-          <a className="logo-text nav-links h2 mb-0" href="/">ZaraDrips Boutique</a>
+          <a className="logo-text nav-links h2 mb-0" href="/">
+          <img className="zara-drips-logo-image" src={zaraDrips} alt="Site logo" />
+          
+          </a>
 
           <button
             className="btn d-md-none nav-links"
@@ -44,7 +39,7 @@ const Layout = () => {
           <nav className="d-none d-md-flex align-items-center gap-3">
             <Link to="/" className="nav-links"><Home /></Link>
             <Link to="/ProductList" className="nav-links">Shop</Link>
-            <Link to="about-page" className="nav-links">About</Link>
+            <Link to="/about-page" className="nav-links">About</Link>
             <Link to="/blog-page" className="nav-links">Blog</Link>
             <Link to="/wishlist" className="nav-links position-relative">
               <i className="fa fa-heart"></i>
@@ -75,7 +70,7 @@ const Layout = () => {
         <div className={`mobile-menu d-md-none text-center ${menuOpen ? "show" : ""}`}>
           <Link to="/" className="d-block py-2 nav-links" onClick={closeMenu}>Home</Link>
           <Link to="/ProductList" className="d-block py-2 nav-links" onClick={closeMenu}>Shop</Link>
-          <Link to="/" className="d-block py-2 nav-links" onClick={closeMenu}>About</Link>
+          <Link to="/about-page" className="d-block py-2 nav-links" onClick={closeMenu}>About</Link>
           <Link to="/" className="d-block py-2 nav-links" onClick={closeMenu}>Blog</Link>
           <Link to="/wishlist" className="d-block py-2 nav-links" onClick={closeMenu}>
             <span className="position-relative d-inline-block">
@@ -107,11 +102,12 @@ const Layout = () => {
       {/* Push content down if menu is open */}
       <main className={`container-fluid my-4 ${menuOpen ? "menu-shift" : ""}fills-body`}>
         <Outlet />
-      </main>
-
-      <footer className="bg-dark nav-links text-center">
+        <footer className="bg-dark nav-links text-center">
         <Footer />
       </footer>
+      </main>
+
+      
     </div>
   );
 };

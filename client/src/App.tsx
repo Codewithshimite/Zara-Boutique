@@ -37,6 +37,8 @@ function App() {
                 <Route path="/order-success" element={<OrderSuccess />} />
                 <Route path="/about-page" element={ <AboutPage />} />
                 <Route path="/blog-page" element={ <BlogPage />} />
+               
+                
  
                 {/* Customer Routes */}
                 <Route path="/customer/register" element={<CustomerRegister />} />

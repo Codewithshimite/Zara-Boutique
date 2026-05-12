@@ -15,9 +15,13 @@
   border-radius: 1rem;
   transition: all 0.3s ease;
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+  transform: none;
+  box-shadow: none;
   }
+}
+
+.value{
+  background-color: rgb(13, 13, 13)
 }
 
 // Timeline
@@ -62,18 +66,21 @@
 }
 
 .team-card{
-  width: fit-content;
+  width: 100%;
   display: flex;
   margin-left: 18%;
+  margin-top: 15%;
+ 
 }
+
 
 .shop-now-btn{
   background-color:  rgb(149, 41, 41) !important;
 }
 
-.main{
-  background-color: red;
-}
+// .main{
+//   background-color: red;
+// }
 
 .clothe-show{
   margin-top: -8%;
@@ -83,4 +90,43 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  background-color: rgb(13, 13, 13);
+  // width: 100%;
+  // color: white;
 }
+.mother:hover{
+   transform: none;
+  box-shadow: none;
+  background-color: rgb(13, 13, 13);
+}
+
+.ceo-section{
+  background-color:  rgb(155, 150, 150) !important;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+  color: white;
+  font-style: $heading-font;
+ 
+}
+
+.meet{
+margin-left: 5%;
+font-size: 30px;
+font-weight: bold;
+color: white;
+font-style: $heading-font
+
+}
+
+.collection-btn{
+  background-color:rgb(149, 41, 41) !important; 
+  color: white;
+}
+
+.collection-btn:hover{
+color: white ;
+}
+
+

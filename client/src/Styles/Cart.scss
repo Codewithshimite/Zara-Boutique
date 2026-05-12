@@ -78,11 +78,13 @@ table {
   position: fixed;
   top: 80px; // distance from top of page
   right: 20px; // stick to right side
-  width: 30%; // set a specific width
+  width: fit-content; // set a specific width
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: inherit;
   // z-index: 1000;
   height: fit-content;
+  background-color: $card-hover;
+  border-radius: 2%;
 }
 
 .cart-text{
@@ -137,11 +139,9 @@ table {
 
   .cart-summary {
     position: static;
-    width: 100%;
+    width: 80%;
     margin-top: 0.5rem;
   }
-
-
 
   /* Mobile summary button styles */
 .mobile-summary-toggle-btn {
@@ -204,7 +204,6 @@ table {
     display: none !important;
   }
 }
-
 .total{
   font-family: 'Lora', serif;
 }

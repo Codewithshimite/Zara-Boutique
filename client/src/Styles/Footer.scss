@@ -1,13 +1,26 @@
 @use 'variables' as *;
 
 .footer{
+  margin-top: 5%;
   background-color: $primary-color;
+
  
 }
 
 
-// @media (max-width: 767.98px) {
-//   .footer{
-//     margin-top: -10%;
-//   }
-// }
+.footer-logo{
+  width: 30%;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.fa-phone{
+  display: inline;
+}
+.footer-images-logo-dive{
+  // background-color: red;
+  display: flex;
+  flex-direction: row;
+  gap: 2%;
+  width: fit-content;
+}

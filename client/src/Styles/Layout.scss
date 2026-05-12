@@ -5,8 +5,15 @@ html, body {
   height: 100%;
   margin: 0;
   overflow: auto;  
+  scrollbar-width:none; 
+  -ms-overflow-style:none; 
 }
 
+
+html::-webkit-scrollbar, 
+body::-webkit-scrollbar {
+  display:none;
+}
 .fills-body{
   width: 100% !important;
   // background-color: $card-hover;
@@ -29,13 +36,13 @@ header {
 }
 
 .nav-links{
-  color: $white-color
+  color: $white-color;
   
 }
 
 main {
   flex-grow: 1;
-  overflow-y: auto;
+  // overflow-y: auto;
   margin-top: 60px;
   transition: margin-top 0.3s ease;
 }
@@ -84,8 +91,9 @@ main {
 }
 
 .whole {
+  display: flex;
   min-height: 100vh;
-  background-color: $mainbackground-color;
+  // background-color: $mainbackground-color;
 }
 
 .slide-in-bck-center {
@@ -131,6 +139,14 @@ main {
 }
 
 
+
+.zara-drips-logo-image{
+  width: 8%;
+  border-radius: 2%;
+}
+// .foot{
+//   margin-top: 11%;
+// }
 
 
 

@@ -113,9 +113,9 @@ const CheckOut: React.FC = () => {
                 {cartItems.map(({ product, qty }) => (
                   <li key={getPid(product)} className="list-group-item d-flex justify-content-between align-items-center">
                     <span>
-                      {product.name} × {qty}
+                      {product.name} × {qty} &nbsp;&nbsp;&nbsp;
                     </span>
-                    <strong>₦{product.price * qty}</strong>
+                    <strong>₦{qty * product.price}</strong>
                   </li>
                 ))}
               </ul>
@@ -166,19 +166,21 @@ const CheckOut: React.FC = () => {
                   value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
               </div>
 
-              <button type="submit" className="btn btn-success w-100 mt-3">
+              {/* <button type="submit" className="btn btn-success w-100 mt-3">
                 Pay with Opay
-              </button>
+              </button> */}
+              <a href="https://wa.link/tkvhfe" target="_blank" rel="noreferrer">
+        <button type="button" className="btn btn-success w-100 mt-3">
+          Contact store to pay
+        </button>
+      </a>
+      
             </form>
           </>
         )}
       </div>
 
-      <a href="https://wa.link/tkvhfe" target="_blank" rel="noreferrer">
-        <button type="button" className="btn btn-success w-100 mt-3">
-          Contact store to pay
-        </button>
-      </a>
+      
     </>
   );
 };
