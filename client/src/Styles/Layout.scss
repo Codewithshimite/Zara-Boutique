@@ -1,19 +1,12 @@
 
 @use 'variables' as *;
 
-html,
-body {
-  min-height: 100%;
-  margin: 0;
+html, body { min-height: 100%; 
+  margin: 0; overflow-y: auto;
   overflow-x: hidden;
-  -ms-overflow-style: none;
   background-color: $mainbackground-color !important;
-}
+ }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;
-}
 
 .fills-body {
   width: 100% !important;
