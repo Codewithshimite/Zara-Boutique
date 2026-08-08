@@ -43,6 +43,7 @@ main {
   flex-grow: 1;
   margin-top: 60px;
   transition: margin-top 0.3s ease;
+  background-color: $mainbackground-color !important;
 }
 
 .menu-shift {
