@@ -7,7 +7,11 @@ html, body {
   overflow: auto;  
   scrollbar-width:none; 
   -ms-overflow-style:none; 
+<<<<<<< HEAD
   background-color: $mainbackground-color !important;
+=======
+   background-color: $mainbackground-color !important;
+>>>>>>> fdf3a45 (fix background color override)
 }
 
 
@@ -16,8 +20,13 @@ body::-webkit-scrollbar {
   display:none;
 }
 .fills-body{
+<<<<<<< HEAD
   width: 100%;
+=======
+  width: 100% !important;
+>>>>>>> fdf3a45 (fix background color override)
   height: 100vh;
+ 
 }
 
 .headline{
@@ -92,7 +101,6 @@ main {
 .whole {
   display: flex;
   min-height: 100vh;
-  // background-color: $mainbackground-color;
 }
 
 .slide-in-bck-center {

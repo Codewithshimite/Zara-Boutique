@@ -1,7 +1,6 @@
 @use 'variables' as *;
 
 .hero-background {
-  // margin-top: 3%;
   background-image: url("/images/2148466039.jpg");
   background-size: cover;      /* use cover for normal photos */
   background-position: center;
@@ -18,7 +17,6 @@
   margin-top: 1%;
   width: 50%;
   display: flex;
-  // background-color: red;
  
 }
 
@@ -38,11 +36,9 @@
 .left-big-text{
   width: fit-content;
   height: fit-content;
-  // background-color: blueviolet;
   display: flex;
   flex-direction: column;
   margin-top: 7%;
-  // font-size: em;
   line-height: 1.1;
   font-weight: bolder;
  
@@ -86,11 +82,6 @@
   transform: scale(0.9);
 }
 
-
-// .shop-btnn:hover {
-//   background: rgb(171, 45, 45);
-//   transform: scale(1.05); /* slight zoom */
-// }
 
 .proud{
   font-size: 1em;
