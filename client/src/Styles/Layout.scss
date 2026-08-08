@@ -1,45 +1,11 @@
-
-@use 'variables' as *;
-
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow: auto;  
-  scrollbar-width:none; 
-  -ms-overflow-style:none; 
-<<<<<<< HEAD
-  background-color: $mainbackground-color !important;
-=======
-   background-color: $mainbackground-color !important;
->>>>>>> fdf3a45 (fix background color override)
-}
-
-
-html::-webkit-scrollbar, 
-body::-webkit-scrollbar {
-  display:none;
-}
-.fills-body{
-<<<<<<< HEAD
-  width: 100%;
-=======
-  width: 100% !important;
->>>>>>> fdf3a45 (fix background color override)
-  height: 100vh;
- 
-}
-
-.headline{
-  background-color: $primary-color !important;
- 
-}
+height
 
 header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
+  min-height: 100vh;
   background-color: white;
   z-index: 1000;
 }
