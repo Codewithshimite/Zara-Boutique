@@ -35,7 +35,7 @@ const StyledWrapper = styled.div`
   transition: all 0.8s;
   cursor: pointer;
   position: relative;
-  // background: rgb(149, 41, 41);
+  background: rgb(149, 41, 41);
   overflow: hidden;
 }
 
