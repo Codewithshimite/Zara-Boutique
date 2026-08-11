@@ -1,4 +1,5 @@
 // src/Pages/CustomerProfile.tsx
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { getProfile, updateProfile, CustomerProfileDTO } from "../api/customerProfile";
 import "../Styles/CustomerProfile.scss";
@@ -30,6 +31,7 @@ const CustomerProfile: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isFetching, setIsFetching] = useState(true);
+  const navigate = useNavigate();
 
   const token =
     typeof window !== "undefined" ? localStorage.getItem("customerToken") : null;
@@ -125,14 +127,16 @@ const CustomerProfile: React.FC = () => {
     }
   };
 
-  const handleLogout = () => {
-    try {
-      localStorage.removeItem("customerToken");
-    } catch {}
-    if (typeof window !== "undefined") {
-      window.location.href = "/customer/login";
-    }
-  };
+  // const handleLogout = () => {
+  //   try {
+  //     localStorage.removeItem("customerToken");
+  //   } catch {}
+  //   if (typeof window !== "undefined") {
+  //     window.location.href = "/customer/login";
+  //   }
+  // };
+  
+  const handleLogout = () => { try { localStorage.removeItem("customerToken"); } catch {} navigate("/customer/login"); };
 
   // Build image src safely (works in dev and on Vercel)
   const pictureSrc = (() => {
